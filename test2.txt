@@ -4,4 +4,4 @@ rubah remote
 rubah local 2
 rubah remote 2
 
-rubah local 3
+rubah remote 3
