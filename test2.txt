@@ -8,3 +8,5 @@ rubah remote 3
 rubah local 4   yg di ruban di local
 rubah remote 4  yg di ruban di remote
 pertahankan dua2nya local dan remote 4
+
+rubah di remote
