@@ -10,5 +10,8 @@ rubah remote 4  yg di ruban di remote
 pertahankan dua2nya local dan remote 4
 
 rubah di remote
+<<<<<<< Updated upstream
 edit remote 1
+=======
 edit lokal 1
+>>>>>>> Stashed changes
