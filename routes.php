@@ -101,6 +101,11 @@ $route['payment/mode/attribute/get'] = 'paymentmodeattribute/Payment_mode_attrib
 
 
 $route['payment/mode/attribute/bankname/list'] = 'paymentmodeattribute/Payment_mode_attribute/getAllBankNames';
+
+$route['agent/payment/checkaccount'] = 'payment/Agent_payment/checkAccount';
+
+
+
 /*
  * User Payment APIs
  */
@@ -132,6 +137,7 @@ $route['agent/payment/listbycreator'] = 'payment/Agent_payment/getAgentPaymentBy
 $route['admin/payment/listbycreator'] = 'payment/Admin_payment/getPaymentByCreatorArrAndSearchFilter';
 $route['admin/user/payment/list'] = 'payment/Admin_payment/getUserPaymentList';
 
+$route['user/payment/checkaccount'] = 'payment/User_payment/checkAccount';
 
 
 
