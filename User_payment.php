@@ -244,4 +244,28 @@ class User_payment extends User_Base_Controller{
 
 
     }
+
+    public function checkAccount(){
+
+        if( !$user_id = $this->_getUserProfileId(NULL, NULL, SessionType::TRANSACTION) )
+            return false;
+
+        $payment_code = $this->input->post('payment_code');
+        $bank_code = $this->input->post('bank_code');
+        $account_number = $this->input->post('account_number');
+        $acc_holder_name = $this->input->post('account_holder_name');
+        if( $payment_service = PaymentRequestServiceFactory::build($payment_code))
+        {
+            if($result = $payment_service->checkAccount($bank_code,$account_number,$acc_holder_name) )
+            {
+                $this->_respondWithSuccessCode($payment_service->getResponseCode(), array('result' => $result));
+                return true;
+            }
+            $this->_respondWithCode($payment_service->getResponseCode(), ResponseHeader::HEADER_NOT_FOUND, NULL, NULL, $payment_service->getResponseMessage());
+            return false;
+        }
+
+        $this->_respondWithCode($this->_service->getResponseCode(), ResponseHeader::HEADER_NOT_FOUND);
+        return false;
+    }
 }
