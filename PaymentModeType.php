@@ -22,4 +22,5 @@ class PaymentModeType{
     const OCBC_CREDIT_CARD = 'CC1';
     const ENETS_DEBIT_CARD = 'CC2';
     const ENETS_CREDIT_CARD = 'CC3';
+    const BANK_TRANSFER_BNI = 'BT9';
 }
