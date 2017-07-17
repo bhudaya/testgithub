@@ -138,6 +138,7 @@ $route['admin/payment/listbycreator'] = 'payment/Admin_payment/getPaymentByCreat
 $route['admin/user/payment/list'] = 'payment/Admin_payment/getUserPaymentList';
 
 $route['user/payment/checkaccount'] = 'payment/User_payment/checkAccount';
+$route['user/payment/checktrx'] = 'payment/User_payment/checkTrx';
 
 
 
