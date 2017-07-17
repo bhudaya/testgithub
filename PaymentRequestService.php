@@ -409,4 +409,47 @@ abstract class PaymentRequestService extends IappsBaseService{
         return false;
     }
 
+    public function checkTrx($payment_code , $payment_request_id){
+
+        if( $this->_request = $this->getRepository()->findById($payment_request_id) ) {
+            $ori_request = clone($this->_request);
+            if ($this->_request instanceof PaymentRequest) {
+
+                $this->getRepository()->startDBTransaction();
+
+                if( $this->_checkTrx($this->_request) )
+                {
+                    if ($this->_updatePaymentRequestFirstCheck($this->_request, $ori_request))
+                    {
+                        $this->getRepository()->completeDBTransaction();
+                        $this->setResponseCode(MessageCode::CODE_REQUEST_COMPLETED);
+                        return array(
+                            "check_info" => $this->_request->getSelectedField(array('id', 'status', 'response'))
+                        );
+                    }
+                    else
+                    {
+                        $this->getRepository()->rollbackDBTransaction();
+                        $this->setResponseCode(MessageCode::CODE_PAYMENT_REQUEST_FAIL);
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+
+    protected function _updatePaymentRequestFirstCheck(PaymentRequest $request, PaymentRequest $ori_request)
+    {
+        $request->setUpdatedBy($this->getUpdatedBy());
+        if( $this->getRepository()->updateFirstCheck($request) )
+        {
+            //fire log
+            $this->fireLogEvent('iafb_payment.payment_request', AuditLogAction::UPDATE, $request->getId(), $ori_request);
+            return $request;
+        }
+
+        return false;
+    }
+
 }
