@@ -95,6 +95,9 @@ class PaymentRequestServiceFactory{
                 case PaymentModeType::OCBC_CREDIT_CARD:
                     self::$_instance[$payment_mode] = new OcbcCreditCardPaymentRequestService($repo);
                     break;
+                case PaymentModeType::BANK_TRANSFER_BNI:
+                    self::$_instance[$payment_mode] = new BNIPaymentRequestService($repo);
+                    break;
                 default:
                     return false;
             }
