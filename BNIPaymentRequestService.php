@@ -294,4 +294,40 @@ class BNIPaymentRequestService extends PaymentRequestService{
         return true;
     }
 
+    public function _checkTrx(PaymentRequest $request)
+    {
+        //make chcekTrx to switch
+        try{
+            $bni_switch_client = BNISwitchClientFactory::build($request->getOption()->toArray());
+        }
+        catch(\Exception $e)
+        {//this is internal error, should not happen
+            $this->setResponseCode(MessageCode::CODE_INVALID_SWITCH_SETTING);
+            return false;
+        }
+
+        if($response = $bni_switch_client->checkTrx() )
+        {
+            $result = $this->_checkResponse($request, $response);
+            $request->getResponse()->add('bni_ref_no', $response->getBniRefNo());
+            $request->setFirstCheckRemarks($response->getBniRefNo());
+            if($response->getResponseStatus() =='Has Been Paid'){
+                //$request->setFirstCheckStatus('approved');
+                $request->setFirstCheckStatus(NULL);
+
+            }
+
+            if( $result ) {
+                return parent::_checkTrx($request);
+            }else{
+                if($request->getStatus()==PaymentRequestStatus::FAIL){
+                    $this->setResponseMessage($response->getDescription());
+                    Logger::debug('BNI Failed - ' . $request->getStatus() . ': ' . $response->getResponse());
+                }
+            }
+        }
+
+        return false;
+    }
+
 }
