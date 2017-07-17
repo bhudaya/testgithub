@@ -273,4 +273,33 @@ class User_payment extends User_Base_Controller{
         $this->_respondWithCode($this->_service->getResponseCode(), ResponseHeader::HEADER_NOT_FOUND);
         return false;
     }
+
+
+    public function checkTrx()
+    {
+        if( !$user_id = $this->_getUserProfileId(NULL, NULL, SessionType::TRANSACTION) )
+            return false;
+
+        $payment_code = $this->input->post('payment_code');
+        $transactionID = $this->input->post('transactionID');
+        $payment_request_id = $this->input->post('payment_request_id');
+
+
+        if( $payment_service = PaymentRequestServiceFactory::build($payment_code))
+        {
+            if( $result = $payment_service->checkTrx($payment_code, $payment_request_id) )
+            {
+                $this->_respondWithSuccessCode($payment_service->getResponseCode(), array('result' => $result));
+                return true;
+            }
+
+            $this->_respondWithCode($payment_service->getResponseCode(), ResponseHeader::HEADER_NOT_FOUND, NULL, NULL, $payment_service->getResponseMessage());
+            return false;
+
+        }
+
+        $this->_respondWithCode($this->_service->getResponseCode(), ResponseHeader::HEADER_NOT_FOUND);
+        return false;
+
+    }
 }
