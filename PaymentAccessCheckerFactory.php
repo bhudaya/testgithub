@@ -53,6 +53,8 @@ class PaymentAccessCheckerFactory{
 
             case PaymentModeType::BANK_TRANSFER_TMONEY:
                 return new TMoneyPaymentAccessChecker();
+            case PaymentModeType::BANK_TRANSFER_BNI:
+                return new BNIPaymentAccessChecker();
             case PaymentModeType::OCBC_CREDIT_CARD:
                 return new OcbcCreditCardPaymentAccessChecker();
             default:
