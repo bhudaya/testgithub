@@ -12,3 +12,5 @@ pertahankan dua2nya local dan remote 4
 rubah di remote
 edit remote 1
 edit lokal 1
+
+edit remote 2
