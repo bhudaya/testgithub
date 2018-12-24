@@ -14,3 +14,5 @@ edit remote 1
 edit lokal 1
 
 edit remote 2
+
+test stash remote
